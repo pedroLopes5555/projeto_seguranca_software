@@ -1,0 +1,75 @@
+# ========== Common ========== #
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+*.vscode
+*.sublime-workspace
+*.sublime-project
+*.orig
+
+# ========== .NET / C# Specific ========== #
+## Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vspscc
+
+## VS Code settings
+.vscode/
+
+## Rider settings (JetBrains)
+.idea/
+
+# ========== Secrets and Configs ========== #
+# Application secrets & local settings
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+appsettings.json
+secrets.json
+local.settings.json
+
+# Sensitive keys and credentials (e.g., API keys, tokens)
+*.key
+*.pem
+*.crt
+*.pfx
+*.p12
+*.cer
+*.env
+.env.local
+.env.*.local
+*.env
+
+# ========== Optional: Other Tools ========== #
+# Docker (if applicable)
+docker-compose.override.yml
+
+# ========== Operating System Specific ========== #
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ========== Optional: IDE Specific ========== #
+# Visual Studio (optional, in case you use it for certain solutions)
+.vs/
+
+# JetBrains Rider (optional, in case you use it for certain solutions)
+.idea/
+
