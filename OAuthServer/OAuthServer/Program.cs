@@ -1,6 +1,19 @@
+using OAuthServer.Repository.Models;
+using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+
+
+builder.Services.AddDbContext<OAuthContex>(options =>
+    options.UseInMemoryDatabase("OAuthContex"));
+
+
+
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
