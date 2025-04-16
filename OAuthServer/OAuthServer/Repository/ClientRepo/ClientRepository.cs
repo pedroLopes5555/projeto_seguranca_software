@@ -44,12 +44,11 @@ public class ClientRepository : IClientRepository
 
     public async Task DeleteClient(Guid id)
     {
-        await _context.Clients.Where(a => a.Id == id).ExecuteDeleteAsync();
+        await _context.Clients.Where(c => c.Id == id).ExecuteDeleteAsync();
     }
 
     public async Task<List<DbClient>> GetAllClients()
     {
         return await _context.Clients.ToListAsync();
     }
-    
 }

@@ -43,7 +43,7 @@ public interface IClientRepository
     /// Deletes a client by its unique identifier.
     /// </summary>
     /// <param name="id">The GUID of the client to delete.</param>
-    /// <returns>The deleted client entity.</returns>
+    /// <returns>No return.</returns>
     Task DeleteClient(Guid id);
 
     /// <summary>
