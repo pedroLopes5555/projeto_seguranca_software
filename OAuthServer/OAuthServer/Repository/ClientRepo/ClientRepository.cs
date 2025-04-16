@@ -12,7 +12,7 @@ public class ClientRepository : IClientRepository
         _context = context;
     }
 
-    public async Task<DbClient> CreateClient(DbClient client)
+    public async Task<DbClient?> CreateClient(DbClient client)
     {
         await _context.Clients.AddAsync(client);
         await _context.SaveChangesAsync();
@@ -35,7 +35,7 @@ public class ClientRepository : IClientRepository
     }
 
 
-    public async Task<DbClient> UpdateClient(DbClient client)
+    public async Task<DbClient?> UpdateClient(DbClient client)
     {
         _context.Clients.Update(client);
         await _context.SaveChangesAsync();

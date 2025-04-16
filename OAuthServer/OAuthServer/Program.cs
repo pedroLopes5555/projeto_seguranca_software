@@ -1,5 +1,8 @@
 using OAuthServer.Repository.Models;
 using Microsoft.EntityFrameworkCore;
+using OAuthServer.Repository.UserRepo;
+using OAuthServer.Repository.ClientRepo;
+using OAuthServer.Services.UserServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OAuthContex>(options =>
     options.UseInMemoryDatabase("OAuthContex"));
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 

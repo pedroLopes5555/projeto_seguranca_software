@@ -8,7 +8,7 @@ public class DbClient
     public required Guid Id { get; set; }
     
     [Required, MaxLength(100)] 
-    public required  string Name { get; set; }
+    public required  String Name { get; set; }
     
     [Required, MaxLength(512)]
     public required String ClientSecret { get; set; }
