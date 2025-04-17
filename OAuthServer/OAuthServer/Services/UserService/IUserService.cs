@@ -1,4 +1,4 @@
-﻿using OAuthServer.Services.Response;
+﻿using OAuthServer.Services.ModelsDTO;
 
 namespace OAuthServer.Services.UserServices
 {

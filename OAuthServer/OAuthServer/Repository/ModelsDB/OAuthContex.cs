@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace OAuthServer.Repository.Models;
+namespace OAuthServer.Repository.ModelsDB;
 
 public class OAuthContex : DbContext
 {
-    public DbSet<DbUser> Users { get; set; } = null!;
+    public DbSet<UserDB> Users { get; set; } = null!;
     
-    public DbSet<DbClient> Clients { get; set; } = null!;
+    public DbSet<ClientDB> Clients { get; set; } = null!;
     
     public OAuthContex(DbContextOptions<OAuthContex> options) : base(options)
     {

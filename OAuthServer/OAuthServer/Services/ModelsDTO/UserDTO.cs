@@ -1,4 +1,4 @@
-﻿namespace OAuthServer.Services.Response;
+﻿namespace OAuthServer.Services.ModelsDTO;
 
 public class UserDTO
 {

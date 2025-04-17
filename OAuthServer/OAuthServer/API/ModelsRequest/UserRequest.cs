@@ -1,4 +1,4 @@
-﻿namespace OAuthServer.API.Request;
+﻿namespace OAuthServer.API.ModelsRequest;
 
 public class UserRequest
 {

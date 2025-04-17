@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using OAuthServer.API.Request;
+using OAuthServer.API.ModelsRequest;
 using OAuthServer.Services.UserServices;
 
 namespace OAuthServer.API.Controllers;

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace OAuthServer.Repository.Models;
+namespace OAuthServer.Repository.ModelsDB;
 
-public class DbUser
+public class UserDB
 {
     [Key]
     public required Guid Id { get; set; }

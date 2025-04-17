@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OAuthServer.Repository.Models;
+using OAuthServer.Repository.ModelsDB;
 
 namespace OAuthServer.Repository.UserRepo
 {
@@ -12,25 +12,25 @@ namespace OAuthServer.Repository.UserRepo
             _context = context;
         }
 
-        public async Task<DbUser?> CreateUser(DbUser user)
+        public async Task<UserDB?> CreateUser(UserDB user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
         }
 
-        public async Task<DbUser?> GetUserById(Guid id)
+        public async Task<UserDB?> GetUserById(Guid id)
         {
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<DbUser?> GetUserByUsername(string username)
+        public async Task<UserDB?> GetUserByUsername(string username)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
 
-        public async Task<DbUser?> UpdateUser(DbUser user)
+        public async Task<UserDB?> UpdateUser(UserDB user)
         {
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
@@ -42,7 +42,7 @@ namespace OAuthServer.Repository.UserRepo
             await _context.Users.Where(u => u.Id == id).ExecuteDeleteAsync();
         }
 
-        public async Task<List<DbUser>> GetAllUsers()
+        public async Task<List<UserDB>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
         }

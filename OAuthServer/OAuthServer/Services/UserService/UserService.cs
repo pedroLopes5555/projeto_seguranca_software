@@ -1,13 +1,12 @@
-﻿using OAuthServer.Repository.Models;
+﻿using OAuthServer.Repository.ModelsDB;
 using OAuthServer.Repository.UserRepo;
-using OAuthServer.Services.Response;
+using OAuthServer.Services.ModelsDTO;
 
 namespace OAuthServer.Services.UserServices
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-
         public UserService(IUserRepository userRepository) 
         {
             _userRepository = userRepository;
@@ -18,7 +17,7 @@ namespace OAuthServer.Services.UserServices
         {
             // make verifications and hash password later
 
-            var dbUser = new DbUser
+            var dbUser = new UserDB
             {
                 Id = Guid.NewGuid(),
                 Username = username,
