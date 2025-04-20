@@ -1,0 +1,11 @@
+﻿namespace OAuthServer.API.ModelsRequest
+{
+    public class OAuthRequest
+    {
+        public required string ResponseType { get; set; }
+        public required string ClientId { get; set; }
+        public required string RedirectUri { get; set; }
+        public required string Scope { get; set; }
+        public required string State { get; set; }
+    }
+}

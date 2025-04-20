@@ -4,6 +4,7 @@ using OAuthServer.Repository.UserRepo;
 using OAuthServer.Repository.ClientRepo;
 using OAuthServer.Services.UserServices;
 using OAuthServer.Services.ClientServices;
+using OAuthServer.Services.OAuthServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IOAuthService, OAuthService>();
 
 
 

@@ -1,7 +1,31 @@
-﻿namespace OAuthServer.API.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+using OAuthServer.API.ModelsRequest;
+using OAuthServer.Services.OAuthServices;
+
+namespace OAuthServer.API.Controllers
 {
-    public class OAuthController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class OAuthController : Controller
     {
-        //TODO
+        private readonly IOAuthService _oAuthService;
+
+        public OAuthController(IOAuthService oAuthService)
+        {
+            _oAuthService = oAuthService;
+        }
+
+        [HttpPost("authorize")]
+        public async Task<IActionResult> Authorize([FromQuery] OAuthRequest input)
+        {
+            return Redirect(
+                await _oAuthService.AuthorizeAsync(
+                    input.ResponseType,
+                    input.ClientId,
+                    input.RedirectUri,
+                    input.Scope,
+                    input.State
+                ));
+        }
     }
 }

@@ -10,9 +10,9 @@ public class ClientController : Controller
 {
     private readonly IClientService _clientService;
 
-    public ClientController(IClientService clientServices)
+    public ClientController(IClientService clientService)
     {
-        _clientService = clientServices;
+        _clientService = clientService;
     }
 
     [HttpPost]

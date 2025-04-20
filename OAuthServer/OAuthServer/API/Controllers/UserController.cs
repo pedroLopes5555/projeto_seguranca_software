@@ -6,13 +6,13 @@ namespace OAuthServer.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController: Controller
+public class UserController : Controller
 {
     private readonly IUserService _userService;
 
-    public UserController(IUserService userServices)
+    public UserController(IUserService userService)
     {
-        _userService = userServices;
+        _userService = userService;
     }
 
     [HttpPost]
