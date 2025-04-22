@@ -2,6 +2,7 @@ using OAuthServer.Repository.ModelsDB;
 using Microsoft.EntityFrameworkCore;
 using OAuthServer.Repository.UserRepo;
 using OAuthServer.Repository.ClientRepo;
+using OAuthServer.Repository.Grant;
 using OAuthServer.Services.UserServices;
 using OAuthServer.Services.ClientServices;
 using OAuthServer.Services.OAuthServices;
@@ -17,6 +18,9 @@ builder.Services.AddDbContext<OAuthContex>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddSingleton<IGrantRepository, GrantRepositoryMem>();
+
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IOAuthService, OAuthService>();
