@@ -6,6 +6,7 @@ using OAuthServer.Repository.Grant;
 using OAuthServer.Services.UserServices;
 using OAuthServer.Services.ClientServices;
 using OAuthServer.Services.OAuthServices;
+using OAuthServer.Services.GrantService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,8 +24,8 @@ builder.Services.AddSingleton<IGrantRepository, GrantRepositoryMem>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IOAuthService, OAuthService>();
-
+builder.Services.AddScoped<IOAuthService, OAuthService>(); 
+builder.Services.AddScoped<IGrantService, GrantService>();
 
 
 

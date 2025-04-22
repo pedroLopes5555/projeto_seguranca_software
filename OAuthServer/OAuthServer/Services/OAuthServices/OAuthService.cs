@@ -1,5 +1,6 @@
 ﻿using OAuthServer.Repository.ClientRepo;
 using OAuthServer.Repository.UserRepo;
+using OAuthServer.Services.GrantService;
 
 namespace OAuthServer.Services.OAuthServices
 {
@@ -7,32 +8,46 @@ namespace OAuthServer.Services.OAuthServices
     {
         private readonly IUserRepository _userRepository;
         private readonly IClientRepository _clientRepository;
-        public OAuthService(IUserRepository userRepository, IClientRepository clientRepository)
+        private readonly IGrantService _grantService;
+        public OAuthService(IUserRepository userRepository, IClientRepository clientRepository, IGrantService grantService)
         {
             _userRepository = userRepository;
             _clientRepository = clientRepository;
+            _grantService = grantService;
         }
 
         public async Task<String> AuthorizeAsync(
-            string responseType,
-            string clientId,
+            string responseType, // ALWAYS "code"
+            Guid clientId,
             string redirectUri,
-            string scope,
+            string scope, // ALWAYS "sum"
             string state
         )
         {
             //CHECK IF USER IS LOGGED IN
             //IF NOT REDIRECT TO LOGIN AND THEN RETURN HERE
 
-            //CHECK IF CLIENT ID IS VALID, AND IF REDIRECT URI MATCHES
+            var client = await _clientRepository.GetClientById(clientId);
+            if(client == null)
+                throw new Exception("Client not found");
 
-            //GENERATE AUTHORIZATION CODE
+            if (client.RedirectUri != redirectUri)
+                throw new Exception("Uri doesnt match");
 
-            //BUILD THE REDIRECT URL, BEING THE CLIENT REDIRECT URI + CODE + STATE
 
-            //RETURN THE REDIRECT URL BUILT
+            var grant = _grantService.CreateGrant();
 
-            return "xxx";
+
+            var uriBuilder = new UriBuilder(redirectUri);
+            var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+
+            query["code"] = grant.ToString();
+            query["state"] = state;
+
+            uriBuilder.Query = query.ToString();
+            var finalUri = uriBuilder.ToString();
+
+            return finalUri;
         }
     }
 }

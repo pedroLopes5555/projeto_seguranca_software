@@ -18,8 +18,6 @@ public class GrantService : IGrantService
         return guid;
     }
 
-
-
     public bool CheckGrant(Guid grant)
     {
         if (_grantRepository.FindGrant(grant) == null)
@@ -34,11 +32,5 @@ public class GrantService : IGrantService
         }
         
         return true;
-        
-        
     }
-    
-    
-
-    
 }

@@ -16,7 +16,7 @@
         /// <returns>The redirect URL of the client, with the code.</returns>
         Task<String> AuthorizeAsync(
             string responseType, 
-            string clientId,
+            Guid clientId,
             string redirectUri,
             string scope,
             string state
