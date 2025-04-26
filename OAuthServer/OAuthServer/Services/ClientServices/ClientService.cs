@@ -3,6 +3,7 @@ using OAuthServer.Repository.ModelsDB;
 using OAuthServer.Services.Hash;
 using OAuthServer.Services.ModelsDTO;
 using System.Security.Cryptography;
+using OAuthServer.Exeptions;
 
 namespace OAuthServer.Services.ClientServices;
 
@@ -36,7 +37,7 @@ public class ClientService : IClientService
         var createdClient = await _clientRepository.CreateClient(dbClient);
 
         if (createdClient == null)
-            throw new Exception("Could not Create Client");
+            throw new NotFoundException("Could not Create Client");
         return new ClientDTO
         {
             Id = createdClient.Id.ToString(),
