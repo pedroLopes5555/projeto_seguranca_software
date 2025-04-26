@@ -1,5 +1,6 @@
 ﻿using OAuthServer.Repository.ModelsDB;
 using OAuthServer.Repository.UserRepo;
+using OAuthServer.Services.Hash;
 using OAuthServer.Services.ModelsDTO;
 
 namespace OAuthServer.Services.UserServices
@@ -7,21 +8,26 @@ namespace OAuthServer.Services.UserServices
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository) 
+        private readonly IHasher _hasher;
+        public UserService(IUserRepository userRepository, IHasher hasher) 
         {
             _userRepository = userRepository;
+            _hasher = hasher;
         }
 
         /// <inheritdoc />
         public async Task<UserDTO> CreateUserAsync(string username, string password)
         {
-            // make verifications and hash password later
+            if (username == "" || password == "")
+                throw new Exception("Invalid fields");
+
+            var passwordHashed = _hasher.GetStringHashed(password);
 
             var dbUser = new UserDB
             {
                 Id = Guid.NewGuid(),
                 Username = username,
-                PasswordHash = password,
+                PasswordHash = passwordHashed,
             };
 
             var createdUser = await _userRepository.CreateUser(dbUser);
@@ -33,6 +39,27 @@ namespace OAuthServer.Services.UserServices
                 Id = createdUser.Id.ToString(),
                 Username = createdUser.Username,
             };
+        }
+
+        /// <inheritdoc />
+        public async Task<String> LoginAsync(string username, string password)
+        {
+            if (username == "" || password == "")
+                throw new Exception("Invalid fields");
+
+            var dbUser = await _userRepository.GetUserByUsername(username);
+
+            if (dbUser == null)
+                throw new Exception("No user found");
+
+            if(!_hasher.VerifyText(dbUser.PasswordHash, password))
+                throw new Exception("Invalid password");
+
+
+            //TODO CREATE SESSION COOKIES
+
+
+            return "";
         }
     }
 }

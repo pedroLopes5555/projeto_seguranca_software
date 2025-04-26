@@ -1,5 +1,6 @@
 ﻿using OAuthServer.Repository.ClientRepo;
 using OAuthServer.Repository.ModelsDB;
+using OAuthServer.Services.Hash;
 using OAuthServer.Services.ModelsDTO;
 using System.Security.Cryptography;
 
@@ -8,23 +9,27 @@ namespace OAuthServer.Services.ClientServices;
 public class ClientService : IClientService
 {
     private readonly IClientRepository _clientRepository;
-    public ClientService(IClientRepository clientRepository)
+    private readonly IHasher _hasher;
+    public ClientService(IClientRepository clientRepository, IHasher hasher)
     {
         _clientRepository = clientRepository;
+        _hasher = hasher;
     }
 
     /// <inheritdoc />
     public async Task<ClientDTO> CreateClientAsync(string name, string redirecturi)
     {
-        // make verifications and hash secret later
+        if (name == "" || redirecturi == "")
+            throw new Exception("Invalid fields");
 
         var secret = GenerateClientSecret();
+        var secretHashed = _hasher.GetStringHashed(secret);
 
         var dbClient = new ClientDB
         {
             Id = Guid.NewGuid(),
             Name = name,
-            ClientSecret = secret,
+            ClientSecret = secretHashed,
             RedirectUri = redirecturi,
         };
 

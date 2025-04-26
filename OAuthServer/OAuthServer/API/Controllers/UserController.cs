@@ -20,4 +20,10 @@ public class UserController : Controller
     {
         return Ok(await _userService.CreateUserAsync(input.Username, input.Password));
     }
+
+    [HttpPost("login")]
+    public async Task<ActionResult> Login([FromBody] UserRequest input)
+    {
+        return Ok(await _userService.LoginAsync(input.Username, input.Password));
+    }
 }

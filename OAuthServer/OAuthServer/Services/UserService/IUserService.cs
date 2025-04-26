@@ -14,5 +14,13 @@ namespace OAuthServer.Services.UserServices
         /// <param name="password">The user's password.</param>
         /// <returns>The created user represented as a <see cref="UserDTO"/>.</returns>
         Task<UserDTO> CreateUserAsync(string username, string password);
+
+        /// <summary>
+        /// Authenticastes a user.
+        /// </summary>
+        /// <param name="username">The display username of the user.</param>
+        /// <param name="password">The user's password.</param>
+        /// <returns>The URL to the authentication endpoint.</returns>
+        Task<string> LoginAsync(string username, string password);
     }
 }
