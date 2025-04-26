@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OAuthServer.API.ModelsRequest;
-using OAuthServer.Services.OAuthServices;
+using OAuthServer.Services.OAuthService;
 
 namespace OAuthServer.API.Controllers
 {
@@ -23,7 +23,6 @@ namespace OAuthServer.API.Controllers
                     input.ResponseType,
                     input.ClientId,
                     input.RedirectUri,
-                    input.Scope,
                     input.State
                 ));
         }

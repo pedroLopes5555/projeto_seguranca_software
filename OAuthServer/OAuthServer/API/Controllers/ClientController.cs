@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OAuthServer.API.ModelsRequest;
-using OAuthServer.Services.ClientServices;
+using OAuthServer.Services.ClientService;
 
 namespace OAuthServer.API.Controllers;
 

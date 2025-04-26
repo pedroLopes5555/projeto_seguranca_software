@@ -1,6 +1,6 @@
 ﻿using OAuthServer.Services.ModelsDTO;
 
-namespace OAuthServer.Services.ClientServices;
+namespace OAuthServer.Services.ClientService;
 
 /// <summary>
 /// Service interface for managing client creation.

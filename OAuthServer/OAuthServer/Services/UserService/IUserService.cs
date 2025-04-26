@@ -20,7 +20,11 @@ namespace OAuthServer.Services.UserServices
         /// </summary>
         /// <param name="username">The display username of the user.</param>
         /// <param name="password">The user's password.</param>
+        /// <param name="responseType">The Authorization Code Flow, should be "code".</param>
+        /// <param name="clientId">The client application's id.</param>
+        /// <param name="redirectUri">Where to send the user after approving.</param>
+        /// <param name="state">Random value to protect against CSRF</param>
         /// <returns>The URL to the authentication endpoint.</returns>
-        Task<string> LoginAsync(string username, string password);
+        Task<string> LoginAsync(string username, string password, string responseType, Guid clientId, string redirectUri, string state);
     }
 }

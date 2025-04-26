@@ -5,7 +5,7 @@ using OAuthServer.Services.ModelsDTO;
 using System.Security.Cryptography;
 using OAuthServer.Exeptions;
 
-namespace OAuthServer.Services.ClientServices;
+namespace OAuthServer.Services.ClientService;
 
 public class ClientService : IClientService
 {

@@ -1,5 +1,6 @@
 ﻿using OAuthServer.Repository.ModelsDB;
 using OAuthServer.Repository.UserRepo;
+using OAuthServer.Services.AuthorizationService;
 using OAuthServer.Services.Hash;
 using OAuthServer.Services.ModelsDTO;
 
@@ -9,10 +10,12 @@ namespace OAuthServer.Services.UserServices
     {
         private readonly IUserRepository _userRepository;
         private readonly IHasher _hasher;
-        public UserService(IUserRepository userRepository, IHasher hasher) 
+        private readonly IAuthorizationService _authorizationService;
+        public UserService(IUserRepository userRepository, IHasher hasher, IAuthorizationService authorizationService) 
         {
             _userRepository = userRepository;
             _hasher = hasher;
+            _authorizationService = authorizationService;
         }
 
         /// <inheritdoc />
@@ -42,7 +45,14 @@ namespace OAuthServer.Services.UserServices
         }
 
         /// <inheritdoc />
-        public async Task<String> LoginAsync(string username, string password)
+        public async Task<String> LoginAsync(
+            string username, 
+            string password,
+            string responseType,
+            Guid clientId,
+            string redirectUri,
+            string state
+        )
         {
             if (username == "" || password == "")
                 throw new Exception("Invalid fields");
@@ -59,7 +69,9 @@ namespace OAuthServer.Services.UserServices
             //TODO CREATE SESSION COOKIES
 
 
-            return "";
+
+
+            return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, redirectUri, state);
         }
     }
 }

@@ -1,34 +1,24 @@
-﻿using OAuthServer.Repository.ClientRepo;
-using OAuthServer.Repository.UserRepo;
+﻿using Microsoft.AspNetCore.Authorization;
+using OAuthServer.Repository.ClientRepo;
 using OAuthServer.Services.GrantService;
 
-namespace OAuthServer.Services.OAuthServices
+namespace OAuthServer.Services.AuthorizationService
 {
-    public class OAuthService : IOAuthService
+    public class AuthorizationService : IAuthorizationService
     {
-        private readonly IUserRepository _userRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IGrantService _grantService;
-        public OAuthService(IUserRepository userRepository, IClientRepository clientRepository, IGrantService grantService)
+
+        public AuthorizationService(IClientRepository clientRepository, IGrantService grantService)
         {
-            _userRepository = userRepository;
             _clientRepository = clientRepository;
             _grantService = grantService;
         }
 
-        public async Task<String> AuthorizeAsync(
-            string responseType, // ALWAYS "code"
-            Guid clientId,
-            string redirectUri,
-            string scope, // ALWAYS "sum"
-            string state
-        )
+        public async Task<string> GenerateAuthorizationCodeRedirectUriAsync(Guid clientId, string redirectUri, string state)
         {
-            //CHECK IF USER IS LOGGED IN
-            //IF NOT REDIRECT TO LOGIN AND THEN RETURN HERE
-
             var client = await _clientRepository.GetClientById(clientId);
-            if(client == null)
+            if (client == null)
                 throw new Exception("Client not found");
 
             if (client.RedirectUri != redirectUri)
@@ -45,9 +35,7 @@ namespace OAuthServer.Services.OAuthServices
             query["state"] = state;
 
             uriBuilder.Query = query.ToString();
-            var finalUri = uriBuilder.ToString();
-
-            return finalUri;
+            return uriBuilder.ToString();
         }
     }
 }
