@@ -11,7 +11,11 @@ using OAuthServer.Services.GrantService;
 using OAuthServer.Services.Hash;
 using OAuthServer.Services.AuthorizationService;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using OAuthServer.Repository.Key;
 using OAuthServer.Services.CookieService;
+using OAuthServer.Services.Jwt;
+using OAuthServer.Services.JWT;
+using OAuthServer.Services.Key;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,16 +29,20 @@ builder.Services.AddDbContext<OAuthContex>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddSingleton<IGrantRepository, GrantRepositoryMem>();
+builder.Services.AddSingleton<IKeyRepository, KeyRepository>();
+builder.Services.AddScoped<IJwtRepository, JwtRepository>();
 
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IOAuthService, OAuthService>(); 
 builder.Services.AddScoped<IGrantService, GrantService>();
+builder.Services.AddScoped<IKeyService, KeyService>();
 builder.Services.AddScoped<IHasher, Hasher>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 builder.Services.AddScoped<ICookieService, CookieService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
