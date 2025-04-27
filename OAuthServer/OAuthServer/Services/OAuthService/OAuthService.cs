@@ -24,9 +24,15 @@ namespace OAuthServer.Services.OAuthService
         {
             if(!_cookieService.IsUserLoggedIn(_httpContextAccessor.HttpContext))
             {
-                //INSTEAD OF A STRING BUILD THE LOGIN REDIRECT AND RETURN THAT
+                var uriBuilder = new UriBuilder("https://localhost:7062/api/User/login");
+                var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
 
-                return "User not logged in";
+                query["clientId"] = clientId.ToString();
+                query["redirectUri"] = redirectUri;
+                query["state"] = state;
+
+                uriBuilder.Query = query.ToString();
+                return uriBuilder.ToString();
             }
 
 
