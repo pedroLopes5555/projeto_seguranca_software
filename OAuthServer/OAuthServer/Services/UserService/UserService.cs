@@ -6,7 +6,7 @@ using OAuthServer.Services.CookieService;
 using OAuthServer.Services.Hash;
 using OAuthServer.Services.ModelsDTO;
 
-namespace OAuthServer.Services.UserServices
+namespace OAuthServer.Services.UserService
 {
     public class UserService : IUserService
     {
@@ -73,7 +73,7 @@ namespace OAuthServer.Services.UserServices
 
 
             await _cookieService.CreateAuthenticationCookieAsync(
-                _httpContextAccessor.HttpContext,
+                _httpContextAccessor.HttpContext ?? throw new Exception("Http context is null"),
                 dbUser.Id,
                 dbUser.Username
             );

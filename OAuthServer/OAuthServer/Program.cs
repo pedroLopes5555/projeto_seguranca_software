@@ -4,7 +4,7 @@ using OAuthServer.Midleware;
 using OAuthServer.Repository.UserRepo;
 using OAuthServer.Repository.ClientRepo;
 using OAuthServer.Repository.Grant;
-using OAuthServer.Services.UserServices;
+using OAuthServer.Services.UserService;
 using OAuthServer.Services.ClientService;
 using OAuthServer.Services.OAuthService;
 using OAuthServer.Services.GrantService;

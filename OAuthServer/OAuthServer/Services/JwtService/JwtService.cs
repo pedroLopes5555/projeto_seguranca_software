@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using OAuthServer.Exeptions;
 using OAuthServer.Repository.ClientRepo;
 using OAuthServer.Services.CookieService;
@@ -50,7 +49,9 @@ public class JwtService : IJwtService
             throw new NotFoundException("Grant code isnt valid");
 
 
-        var userId = _cookieService.GetUserIdFromCookie(_httpContextAccessor.HttpContext);
+        var userId = _cookieService.GetUserIdFromCookie(
+            _httpContextAccessor.HttpContext ?? throw new Exception("Http Context null")
+            );
         var clientIdString = clientId.ToString();
 
         return _jwtRepository.GenerateToken(userId, clientIdString);

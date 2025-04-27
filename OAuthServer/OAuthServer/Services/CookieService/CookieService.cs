@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using OAuthServer.Exeptions;
 
 namespace OAuthServer.Services.CookieService
 {
@@ -34,12 +35,17 @@ namespace OAuthServer.Services.CookieService
 
         public bool IsUserLoggedIn(HttpContext httpContext)
         {
-            return httpContext.User?.Identity?.IsAuthenticated ?? false;
+            return httpContext.User.Identity?.IsAuthenticated ?? false;
         }
 
         public string GetUserIdFromCookie(HttpContext httpContext)
         {
-            return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if(userId == null)
+            {
+                throw new NotFoundException("User is not logged in");
+            }
+            return userId;
         }
     }
 }

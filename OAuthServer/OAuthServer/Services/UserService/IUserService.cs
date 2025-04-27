@@ -1,6 +1,6 @@
 ﻿using OAuthServer.Services.ModelsDTO;
 
-namespace OAuthServer.Services.UserServices
+namespace OAuthServer.Services.UserService
 {
     /// <summary>
     /// Service interface for managing user authentication.

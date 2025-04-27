@@ -22,6 +22,11 @@ namespace OAuthServer.Services.OAuthService
             string state
         )
         {
+            if(_httpContextAccessor.HttpContext == null)
+            {
+                throw new Exception("HttpContext is null");
+            }
+            
             if(!_cookieService.IsUserLoggedIn(_httpContextAccessor.HttpContext))
             {
                 var uriBuilder = new UriBuilder("https://localhost:7062/api/User/login");
