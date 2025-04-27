@@ -1,6 +1,8 @@
-﻿using OAuthServer.Repository.ModelsDB;
+﻿using OAuthServer.Exeptions;
+using OAuthServer.Repository.ModelsDB;
 using OAuthServer.Repository.UserRepo;
 using OAuthServer.Services.AuthorizationService;
+using OAuthServer.Services.CookieService;
 using OAuthServer.Services.Hash;
 using OAuthServer.Services.ModelsDTO;
 
@@ -11,11 +13,15 @@ namespace OAuthServer.Services.UserServices
         private readonly IUserRepository _userRepository;
         private readonly IHasher _hasher;
         private readonly IAuthorizationService _authorizationService;
-        public UserService(IUserRepository userRepository, IHasher hasher, IAuthorizationService authorizationService) 
+        private readonly ICookieService _cookieService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserService(IUserRepository userRepository, IHasher hasher, IAuthorizationService authorizationService, ICookieService cookieService, IHttpContextAccessor httpContextAccessor) 
         {
             _userRepository = userRepository;
             _hasher = hasher;
             _authorizationService = authorizationService;
+            _cookieService = cookieService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <inheritdoc />
@@ -55,7 +61,7 @@ namespace OAuthServer.Services.UserServices
         )
         {
             if (username == "" || password == "")
-                throw new Exception("Invalid fields");
+                throw new InvalidInputException("Invalid fields");
 
             var dbUser = await _userRepository.GetUserByUsername(username);
 
@@ -66,9 +72,11 @@ namespace OAuthServer.Services.UserServices
                 throw new Exception("Invalid password");
 
 
-            //TODO CREATE SESSION COOKIES
-
-
+            await _cookieService.CreateAuthenticationCookieAsync(
+                _httpContextAccessor.HttpContext,
+                dbUser.Id,
+                dbUser.Username
+            );
 
 
             return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, redirectUri, state);

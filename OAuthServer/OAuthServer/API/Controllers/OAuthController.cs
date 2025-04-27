@@ -18,7 +18,7 @@ namespace OAuthServer.API.Controllers
         [HttpGet("authorize")]
         public async Task<IActionResult> Authorize([FromQuery] OAuthRequest input)
         {
-            return Redirect(
+            return Ok(
                 await _oAuthService.AuthorizeAsync(
                     input.ResponseType,
                     input.ClientId,

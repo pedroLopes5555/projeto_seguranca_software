@@ -1,17 +1,18 @@
-﻿using OAuthServer.Repository.UserRepo;
-using OAuthServer.Services.AuthorizationService;
+﻿using OAuthServer.Services.AuthorizationService;
+using OAuthServer.Services.CookieService;
 
 namespace OAuthServer.Services.OAuthService
 {
     public class OAuthService : IOAuthService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly ICookieService _cookieService;
         private readonly IAuthorizationService _authorizationService;
-
-        public OAuthService(IUserRepository userRepository, IAuthorizationService authorizationService)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public OAuthService(ICookieService cookieService, IAuthorizationService authorizationService, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = userRepository;
+            _cookieService = cookieService;
             _authorizationService = authorizationService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<String> AuthorizeAsync(
@@ -21,9 +22,13 @@ namespace OAuthServer.Services.OAuthService
             string state
         )
         {
-            //CHECK IF USER IS LOGGED IN
-            //IF NOT REDIRECT TO LOGIN AND THEN RETURN HERE
-            //redirecionar para a pagina com os dados de autorização (clientid, redirecturi, state)
+            if(!_cookieService.IsUserLoggedIn(_httpContextAccessor.HttpContext))
+            {
+                //INSTEAD OF A STRING BUILD THE LOGIN REDIRECT AND RETURN THAT
+
+                return "User not logged in";
+            }
+
 
             return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, redirectUri, state);
         }

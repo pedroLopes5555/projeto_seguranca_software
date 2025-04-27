@@ -24,7 +24,7 @@ public class UserController : Controller
     [HttpPost("login")]
     public async Task<ActionResult> Login([FromBody] UserRequest input, [FromQuery] OAuthRequest info)
     {
-        return Redirect(
+        return Ok(
             await _userService.LoginAsync(    
                 input.Username, 
                 input.Password,

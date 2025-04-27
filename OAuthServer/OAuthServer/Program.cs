@@ -10,6 +10,8 @@ using OAuthServer.Services.OAuthService;
 using OAuthServer.Services.GrantService;
 using OAuthServer.Services.Hash;
 using OAuthServer.Services.AuthorizationService;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using OAuthServer.Services.CookieService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,7 +33,18 @@ builder.Services.AddScoped<IOAuthService, OAuthService>();
 builder.Services.AddScoped<IGrantService, GrantService>();
 builder.Services.AddScoped<IHasher, Hasher>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
+builder.Services.AddScoped<ICookieService, CookieService>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "OAuthAuthenticationCookie";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.ExpireTimeSpan = TimeSpan.FromHours(1); //can change
+    });
 
 
 
