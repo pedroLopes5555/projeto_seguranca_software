@@ -1,4 +1,4 @@
-namespace OAuthServer.Services.Jwt;
+namespace OAuthServer.Services.JwtService;
 
 public interface IJwtService
 {

@@ -18,5 +18,7 @@
         /// </summary>
         /// <param name="httpContext">Current HTTP context of the request.</param>
         bool IsUserLoggedIn(HttpContext httpContext);
+
+        string GetUserIdFromCookie(HttpContext httpContext);
     }
 }

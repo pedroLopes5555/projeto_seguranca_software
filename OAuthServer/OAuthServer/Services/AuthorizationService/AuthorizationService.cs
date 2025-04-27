@@ -25,6 +25,7 @@ namespace OAuthServer.Services.AuthorizationService
                 throw new Exception("Uri doesnt match");
 
 
+
             var grant = _grantService.CreateGrant();
 
 

@@ -7,6 +7,5 @@ public interface IKeyService
 {
     byte[] GetPublicKey();
     byte[] GetPrivateKey();
-
     RSA GetKey();
 }

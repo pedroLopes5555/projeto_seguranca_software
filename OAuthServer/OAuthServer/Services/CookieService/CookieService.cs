@@ -36,5 +36,10 @@ namespace OAuthServer.Services.CookieService
         {
             return httpContext.User?.Identity?.IsAuthenticated ?? false;
         }
+
+        public string GetUserIdFromCookie(HttpContext httpContext)
+        {
+            return httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
     }
 }

@@ -13,7 +13,7 @@ using OAuthServer.Services.AuthorizationService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using OAuthServer.Repository.Key;
 using OAuthServer.Services.CookieService;
-using OAuthServer.Services.Jwt;
+using OAuthServer.Services.JwtService;
 using OAuthServer.Services.JWT;
 using OAuthServer.Services.Key;
 
