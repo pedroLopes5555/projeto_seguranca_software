@@ -1,0 +1,34 @@
+@model OAuthServer.API.ModelsRequest.OAuthRequest
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form method="get" action="/api/user/login">
+    <!-- Hidden fields to carry OAuth parameters -->
+    <input type="hidden" name="ResponseType" value="@Model.response_type" />
+    <input type="hidden" name="ClientId" value="@Model.client_id" />
+    <input type="hidden" name="RedirectUri" value="@Model.redirect_uri" />
+    <input type="hidden" name="State" value="@Model.state" />
+
+    <!-- Login form fields -->
+    <div>
+        <label for="username">Username</label>
+        <input type="text" id="Username" name="Username" required />
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" id="Password" name="Password" required />
+    </div>
+
+    <div>
+        <button type="submit">Login</button>
+    </div>
+</form>
+</body>
+</html>

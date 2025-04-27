@@ -1,0 +1,23 @@
+@model OAuthServer.API.ModelsRequest.OAuthRequest
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorize Application</title>
+</head>
+<body>
+<h1>Authorize Application</h1>
+<p>You are about to authorize the application to access your data.</p>
+
+<form method="get" action="/api/oauth/authorize">
+    <input type="hidden" name="response_type" value="@Model.response_type" />
+    <input type="hidden" name="client_id" value="@Model.client_id" />
+    <input type="hidden" name="redirect_uri" value="@Model.redirect_uri" />
+    <input type="hidden" name="state" value="@Model.state" />
+        
+    <button type="submit">Authorize</button>
+</form>
+</body>
+</html>

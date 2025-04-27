@@ -14,17 +14,24 @@ namespace OAuthServer.API.Controllers
         {
             _oAuthService = oAuthService;
         }
-
+        
+        
         [HttpGet("authorize")]
         public async Task<IActionResult> Authorize([FromQuery] OAuthRequest input)
         {
-            return Ok(
+            return Redirect(
                 await _oAuthService.AuthorizeAsync(
-                    input.ResponseType,
-                    input.ClientId,
-                    input.RedirectUri,
-                    input.State
+                    input.response_type,
+                    input.client_id,
+                    input.redirect_uri,
+                    input.state
                 ));
+        }
+        
+        [HttpGet("authorizepage")]
+        public IActionResult AuthorizePage([FromQuery] OAuthRequest input)
+        {
+            return View(input);
         }
     }
 }

@@ -21,17 +21,23 @@ public class UserController : Controller
         return Ok(await _userService.CreateUserAsync(input.Username, input.Password));
     }
 
-    [HttpPost("login")]
-    public async Task<ActionResult> Login([FromBody] UserRequest input, [FromQuery] OAuthRequest info)
+    [HttpGet("login")]
+    public async Task<ActionResult> Login([FromQuery] LoginRequest info)
     {
-        return Ok(
-            await _userService.LoginAsync(    
-                input.Username, 
-                input.Password,
+        return Redirect(
+            await _userService.LoginAsync(
+                info.Username, 
+                info.Password,
                 info.ResponseType,
                 info.ClientId,
                 info.RedirectUri,
                 info.State
             ));
+    }
+    
+    [HttpGet("loginpage")]
+    public async Task<ActionResult> LoginPage([FromQuery] OAuthRequest info)
+    {
+        return View(info);
     }
 }

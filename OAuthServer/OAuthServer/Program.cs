@@ -20,7 +20,18 @@ using OAuthServer.Services.Key;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()  // Allow any origin for development or trusted frontend apps
+            .AllowAnyHeader()  // Allow all headers (important for APIs with dynamic headers)
+            .AllowAnyMethod(); // Allow all HTTP methods
+    });
+});
 
 
 builder.Services.AddDbContext<OAuthContex>(options =>
@@ -65,6 +76,10 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 // Configure the HTTP request pipeline.
+
+app.UseCors("AllowAll");
+
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
