@@ -18,8 +18,8 @@ namespace OAuthServer.Services.OAuthService
         public async Task<String> AuthorizeAsync(
             string responseType,
             Guid clientId,
-            string redirectUri,
-            string state
+            string redirectUri
+            //string state
         )
         {
             //TODO -> if the client do not exist return a view
@@ -37,7 +37,7 @@ namespace OAuthServer.Services.OAuthService
 
                 query["client_Id"] = clientId.ToString();
                 query["redirect_Uri"] = redirectUri;
-                query["state"] = state;
+                //query["state"] = state;
                 query["response_type"] = responseType;
 
                 uriBuilder.Query = query.ToString();
@@ -45,7 +45,9 @@ namespace OAuthServer.Services.OAuthService
             }
 
 
-            return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, redirectUri, state);
+            return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, 
+                redirectUri,
+                Guid.Parse(_cookieService.GetUserIdFromCookie(_httpContextAccessor.HttpContext)) );
         }
         
         

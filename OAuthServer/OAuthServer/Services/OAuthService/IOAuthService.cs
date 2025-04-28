@@ -16,8 +16,8 @@
         Task<String> AuthorizeAsync(
             string responseType, 
             Guid clientId,
-            string redirectUri,
-            string state
+            string redirectUri
+            //string state
         );
     }
 }

@@ -56,8 +56,7 @@ namespace OAuthServer.Services.UserService
             string password,
             string responseType,
             Guid clientId,
-            string redirectUri,
-            string state
+            string redirectUri
         )
         {
             if (username == "" || password == "")
@@ -70,16 +69,15 @@ namespace OAuthServer.Services.UserService
 
             if(!_hasher.VerifyText(dbUser.PasswordHash, password))
                 throw new Exception("Invalid password");
+            
+            // await _cookieService.CreateAuthenticationCookieAsync(
+            //     _httpContextAccessor.HttpContext ?? throw new Exception("Http context is null"),
+            //     dbUser.Id,
+            //     dbUser.Username
+            // );
 
 
-            await _cookieService.CreateAuthenticationCookieAsync(
-                _httpContextAccessor.HttpContext ?? throw new Exception("Http context is null"),
-                dbUser.Id,
-                dbUser.Username
-            );
-
-
-            return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, redirectUri, state);
+            return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, redirectUri, dbUser.Id);
         }
     }
 }

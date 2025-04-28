@@ -25,6 +25,6 @@ namespace OAuthServer.Services.UserService
         /// <param name="redirectUri">Where to send the user after approving.</param>
         /// <param name="state">Random value to protect against CSRF</param>
         /// <returns>The URL to the authentication endpoint.</returns>
-        Task<string> LoginAsync(string username, string password, string responseType, Guid clientId, string redirectUri, string state);
+        Task<string> LoginAsync(string username, string password, string responseType, Guid clientId, string redirectUri);
     }
 }

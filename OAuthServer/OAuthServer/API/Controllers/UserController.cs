@@ -30,8 +30,7 @@ public class UserController : Controller
                 info.Password,
                 info.ResponseType,
                 info.ClientId,
-                info.RedirectUri,
-                info.State
+                info.RedirectUri
             ));
     }
     

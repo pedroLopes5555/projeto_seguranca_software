@@ -11,11 +11,13 @@ using OAuthServer.Services.GrantService;
 using OAuthServer.Services.Hash;
 using OAuthServer.Services.AuthorizationService;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using OAuthServer.Repository.GrantIdRepository;
+using OAuthServer.Repository.JWT;
 using OAuthServer.Repository.Key;
 using OAuthServer.Services.CookieService;
 using OAuthServer.Services.JwtService;
-using OAuthServer.Services.JWT;
 using OAuthServer.Services.Key;
+using OAuthServer.Repository.GrantIdRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,7 +44,7 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddSingleton<IGrantRepository, GrantRepositoryMem>();
 builder.Services.AddSingleton<IKeyRepository, KeyRepository>();
 builder.Services.AddScoped<IJwtRepository, JwtRepository>();
-
+builder.Services.AddSingleton<IGrantIdRepository, GrantIdMemRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IClientService, ClientService>();

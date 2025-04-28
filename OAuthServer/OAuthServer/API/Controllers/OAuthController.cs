@@ -23,8 +23,8 @@ namespace OAuthServer.API.Controllers
                 await _oAuthService.AuthorizeAsync(
                     input.response_type,
                     input.client_id,
-                    input.redirect_uri,
-                    input.state
+                    input.redirect_uri
+                   // input.state
                 ));
         }
         

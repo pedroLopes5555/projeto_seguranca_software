@@ -1,6 +1,8 @@
-namespace OAuthServer.Services.JWT;
+using OAuthServer.Repository.JWT;
+
+namespace OAuthServer.Repository.JWT;
 
 public interface IJwtRepository
 {
-    string GenerateToken(string userId, string clientId);
+    TokenResponse GenerateToken(string userId, string clientId);
 }

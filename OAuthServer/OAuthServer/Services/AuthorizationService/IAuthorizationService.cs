@@ -12,6 +12,6 @@
         /// <param name="redirectUri">The uri responsible for redirecting the user.</param>
         /// <param name="state">The state used to make sure no tempering was made.</param>
         /// <returns>The return uri to the client app as a <see cref="string"/>.</returns>
-        Task<string> GenerateAuthorizationCodeRedirectUriAsync(Guid clientId, string redirectUri, string state);
+        Task<string> GenerateAuthorizationCodeRedirectUriAsync(Guid clientId, string redirectUri, Guid userId);
     }
 }
