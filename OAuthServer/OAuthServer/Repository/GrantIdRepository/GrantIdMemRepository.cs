@@ -18,4 +18,17 @@ public class GrantIdMemRepository : IGrantIdRepository
     {
         return _grantIds[grantId];
     }
+
+    public void RemoveGrant(Guid grantId)
+    {
+        if (_grantIds.ContainsKey(grantId))
+        {
+            _grantIds.Remove(grantId);
+        }
+    }
+
+    public bool CheckGrant(Guid grant)
+    {
+        return _grantIds.ContainsKey(grant);
+    }
 }

@@ -25,15 +25,16 @@ namespace OAuthServer.Services.AuthorizationService
 
             if (client.RedirectUri != redirectUri)
                 throw new Exception("Uri doesnt match");
-            
-            var grant = _grantService.CreateGrant();
-            
+
+            //var grant = _grantService.CreateGrant();
+            var grant = Guid.NewGuid();
+            _grantIdRepository.AddGrantUserId(grant, userId);
+
             var uriBuilder = new UriBuilder(redirectUri);
             var query = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
 
             query["code"] = grant.ToString();
             //query["state"] = state;
-            _grantIdRepository.AddGrantUserId(grant, userId);
             
             uriBuilder.Query = query.ToString();
             return uriBuilder.ToString();

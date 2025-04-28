@@ -69,12 +69,12 @@ namespace OAuthServer.Services.UserService
 
             if(!_hasher.VerifyText(dbUser.PasswordHash, password))
                 throw new Exception("Invalid password");
-            
-            // await _cookieService.CreateAuthenticationCookieAsync(
-            //     _httpContextAccessor.HttpContext ?? throw new Exception("Http context is null"),
-            //     dbUser.Id,
-            //     dbUser.Username
-            // );
+
+            await _cookieService.CreateAuthenticationCookieAsync(
+                _httpContextAccessor.HttpContext ?? throw new Exception("Http context is null"),
+                dbUser.Id,
+                dbUser.Username
+            );
 
 
             return await _authorizationService.GenerateAuthorizationCodeRedirectUriAsync(clientId, redirectUri, dbUser.Id);
