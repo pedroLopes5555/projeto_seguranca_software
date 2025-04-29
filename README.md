@@ -1,107 +1,120 @@
-
-
-
 # Project: OAuthServer
 This project is hosted in Azure, whit the url : https://oauthserver.azurewebsites.net
-This OAuth server project works whit any generic Oauth library
 
-You can test this project whit the client on this repo, or whit any client
-Configure the client and run. 
+<details>
+<summary>Flaws</summary>
+Our project have some flaws that we didn't manage to solve, being:
 
-
+- JWT Token generation, is creating successfully but placing the same id twice in the audience.
+- The cookies are successfully created, but expiration is not working very well meaning there might be the need to remove them manually.
+</details>
 
 
 ## Setup
-### Create a Client:
-The first step is to create a client
+In order to test our project, follow this quick Setup guide.
 
-#### Method: POST
+## Create a Client:
+Using Postman create a Client that will be used to retrieve the JWT Token from the OAuth Server. To create, choose a name and the desired redirectUri.
+
+**IMPORTANT: After creation, both id and clientSecret will only be displayed once, being necessary to configure the client.**
+
+### Method: POST
 >```
 >https://oauthserver.azurewebsites.net/api/Client
 >```
 ### Body (**raw**)
-
 ```json
 {
-  "name": "App do Lopes",
+  "name": "app_name",
   "redirectUri": "http://localhost:3000/callback"
 }
 ```
-Enter your project name, and callback uri, this endpoint will return a json whit your client id, name, secret and redirect uri
-
+#### Return 
 ```json
 {
     "id": "fe94558c-d0fd-4272-8602-c6a2f68d574a",
-    "name": "My new Application",
+    "name": "app_name",
     "clientSecret": "IOEncMqfrUGGFfIxESJQcP/WNpsukjYCjxOR8tzqnPBEEWlZUj3U8KSMzXLg4nkY7rdiLjsNQXKL+er9hcmdZw==",
     "redirectUri": "http://localhost:3000/callback"
 }
 ```
 
 ## Create a User 
+Using Postman create a User that will be used to login into the OAuth Server granting access to the Client previously registred. To create, choose a username and a password.
 
-The you need to create a user
-
-Call this endpoint
+**IMPORTANT: After creation, the user id will be displayed. Save it to check with JWT token later.**
 ### Method: POST
 >```
 >https://oauthserver.azurewebsites.net/api/User
 >```
 ### Body (**raw**)
-
 ```json
 {
   "username": "paulinho1512",
   "password": "estapasssimples"
 }
 ```
-
-The Api will return:
+#### Return 
 ```json
 {
     "id": "05a031d1-d481-4e9b-b6f4-897c3d26c9a3",
-    "username": "pedro"
+    "username": "paulinho1512"
 }
 ```
 
 
 ## Get the JWT pub key
-the JWT on this project works whit a private/public key encription for the JWT signatures,so, for this work you should get the pubkey:
+Using Postman get the public key that can be used to check the signature of the JWT Token, taking into account that the project works with a private/public key encryption.
 
 ### Method: GET
 >```
 >https://oauthserver.azurewebsites.net/api/Key
 >```
-result: 
-"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzyWRTDYj3IxpcOuKG/RHkBEj6LFfTv1EljMmL++bf/F2wLYrwuGNJeVDH7OwKHpd0b4s80WeDLc38OMSEPpDq1WVYa/KOaqb45rDree0T5L5WH9kMtXP1QVJra5Q6geyBGV0cGGwpkvWSeEIkT9WGOsECDWJCXODGNm3gnSi2Qxrpp9ANhkgfK8hCfNt3Do6vblMuq+4U8bwHjjoxiaohPTwEai6+zNhBuPKJkcmZaT/TQ1JS6RBz8Hxf5O+LZWNaymAM+Uu9hNE91p9VnkIqmnuNr+b5dvZykbDtFP90jxqfYlFjcfohPWiTEOqKeyIihIu6TU72JO/of9rxYlGJQIDAQAB"
+#### Return
+>```
+>"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzyWRTDYj3IxpcOuKG/RHkBEj6LFfTv1EljMmL++bf/F2wLYrwuGNJeVDH7OwKHpd0b4s80WeDLc38OMSEPpDq1WVYa/KOaqb45rDree0T5L5WH9kMtXP1QVJra5Q6geyBGV0cGGwpkvWSeEIkT9WGOsECDWJCXODGNm3gnSi2Qxrpp9ANhkgfK8hCfNt3Do6vblMuq+4U8bwHjjoxiaohPTwEai6+zNhBuPKJkcmZaT/TQ1JS6RBz8Hxf5O+LZWNaymAM+Uu9hNE91p9VnkIqmnuNr+b5dvZykbDtFP90jxqfYlFjcfohPWiTEOqKeyIihIu6TU72JO/of9rxYlGJQIDAQAB"
+>```
 
+## Client Setup
+To setup the client, there is the need to configure a environment file with the information that we obtained from before, being this file in the following path: 
+>```
+>express-client/.env
+>``` 
+**IMPORTANT: This environment file contains important information so the following display is an example on how it should be, not how it is.**
 
-the pubkey is betwin "".
+```
+OAUTH_SERVER_URL=https://oauthserver.azurewebsites.net
 
-## Client side setup
+JWT_SECRET_KEY=-----BEGIN PUBLIC KEY-----<Place the obtained public key here without the quotation marks>-----END PUBLIC KEY-----
 
-Set up the server url, the key, the client id, the secret, the JWT issuers and audiencies
-OAUTH_SERVER_URL=http://localhost:5150 place the oauth server api
+OAUTH_CLIENT_ID=<The client id obtained before>
 
-JWT_SECRET_KEY= -----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZ8PI5jfSk1QHSYmeQ0+XJgMLbbZV3sq284ZYqQ4m6mBb+ozWPCq4wFiukMBCPQqJhEeHZuUXLBSSb4nvFL2N7ilPslaKjhE2w44w8xtHaIreX8xY8ibpdkbq6oT1nsv1RIP2abphW4hMsuRzkUY/K/q4+imDM9LhDVG24mwIdK+qyB8r39HIC5XG+7JBgPbLoRiOokdSxqIrYv2sZQZcBX0JlSmQXaV8VTdaS2ewGH7YIex6ATmUz1Vgt6YMum2NiPU8kkxs06rxBeZYdT7OZyRdaSwX59MQolv8kL0nLMmmcESQOw7ILNj3aFD0aTi4G9t4rkxjpS8lj/6AlhDcwIDAQAB-----END PUBLIC KEY-----
+OAUTH_CLIENT_SECRET=<The client secret obtained before>
 
-OAUTH_CLIENT_ID=2e068ec4-e39e-4ab6-a4d4-d7624dac3cb2
+CALLBACK_URL=<The redirectUri chose when creating the client>
 
-OAUTH_CLIENT_SECRET=4HJ9GVuNxm83Kp4YpMC7Zw8w/03AUyi1ElHP+B05CbofoTKOotuOrBNzys/3jZ59vPqrwhmWRqiEDEUlp8hTYw==
-
-
-CALLBACK_URL=http://localhost:3000/callback
 
 JWT_ISSUER = OAuthServer
 
+JWT_AUDIENCE = <The client id obtained before>
+``` 
 
-JWT_AUDIENCE = 208db966-ed2b-4668-a193-f3e95602c545
+### Run the Client App
+Once configurated we can test the Client App accessing the OAuth Server and obtaining the JWT Token, by following the commands:
+
+### Start the app
+Once inside the express_client folder, run the following command:
+>```
+>node server.js
+>``` 
+
+### View in browser
+Once the app starts running and shows a message saying "Server running on http://localhost:3000", its ready to test. In the browser access http://localhost:3000/login and the OAuth flow will start, requesting permission.
 
 
+<details>
+  <summary><h1>View the API Documentation</summary>
 
-
-
-# Rest of the API documentation
 ### Method: POST
 >```
 >https://localhost:7062/api/User
@@ -116,7 +129,6 @@ JWT_AUDIENCE = 208db966-ed2b-4668-a193-f3e95602c545
 ```
 
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## End-point: CreateClient
 ### Method: POST
@@ -213,4 +225,4 @@ JWT_AUDIENCE = 208db966-ed2b-4668-a193-f3e95602c545
 
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
-
+<details>
