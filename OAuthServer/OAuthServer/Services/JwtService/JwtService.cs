@@ -52,17 +52,14 @@ namespace OAuthServer.Services.JwtService
             if (client == null)
                 throw new NotFoundException("Could not find Client");
             _logger.LogInformation("Found client with ID: {ClientId}", clientId);
-            
-            // TODO 
-            // if (!_hasher.VerifyText(client.ClientSecret, clientSecret))
-            //     throw new UnauthorizedAccessException("Invalid Client Secret");
+
+            if (!_hasher.VerifyText(client.ClientSecret, clientSecret))
+                throw new UnauthorizedAccessException("Invalid Client Secret");
 
             if (client.RedirectUri != redirectUri)
                 throw new UnauthorizedAccessException("Redirect URI mismatch");
             _logger.LogInformation("Redirect URI matches for client with ID: {ClientId}", clientId);
             
-            // Validate grant (authorization code)
-            //if (!_grantService.CheckGrant(grant))
             if(!_grantIdRepository.CheckGrant(grant))
                 throw new NotFoundException("Grant code isn't valid");
             _logger.LogInformation("Grant code is valid for client with ID: {ClientId}", clientId);
@@ -73,7 +70,6 @@ namespace OAuthServer.Services.JwtService
 
             _grantIdRepository.RemoveGrant(grant);
 
-            // Generate token using the JwtRepository
             return _jwtRepository.GenerateToken(userId.ToString(), clientId.ToString());
         }
     }

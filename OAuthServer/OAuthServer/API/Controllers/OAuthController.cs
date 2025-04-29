@@ -24,7 +24,6 @@ namespace OAuthServer.API.Controllers
                     input.response_type,
                     input.client_id,
                     input.redirect_uri
-                   // input.state
                 ));
         }
         

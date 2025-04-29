@@ -64,7 +64,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.Name = "OAuthAuthenticationCookie";
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        options.ExpireTimeSpan = TimeSpan.FromHours(1); //can change
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(61); //can change
     });
 
 

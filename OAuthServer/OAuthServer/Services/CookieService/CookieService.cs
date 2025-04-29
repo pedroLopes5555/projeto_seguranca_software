@@ -23,7 +23,6 @@ namespace OAuthServer.Services.CookieService
             var authProperties = new AuthenticationProperties
             {
                 IsPersistent = true,
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(30)
             };
 
             await httpContext.SignInAsync(
